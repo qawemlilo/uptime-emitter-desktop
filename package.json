@@ -1,12 +1,72 @@
 {
-  "name": "electron-quick-start",
-  "version": "1.0.0",
-  "description": "A minimal Electron application",
-  "main": "main.js",
+  "name": "UptimeEmitter",
+  "version": "0.0.1",
+  "description": "Uptime monitor",
+  "productName": "UptimeEmitter",
+  "author": "Que",
   "scripts": {
+    "serve": "vue-cli-service serve --open",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 10 && NODE_ENV=DEV electron .",
     "start": "electron ."
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "nedb": "^1.8.0",
+    "ping-monitor": "^0.3.0",
+    "vue": "^2.6.4",
+    "vuetify": "^1.5.0"
+  },
+  "devDependencies": {
+    "@babel/preset-stage-2": "^7.0.0",
+    "@vue/cli-plugin-babel": "^3.4.0",
+    "@vue/cli-plugin-eslint": "^3.4.0",
+    "@vue/cli-service": "^3.4.0",
+    "css-loader": "^2.1.0",
+    "electron": "^4.0.3",
+    "style-loader": "^0.23.1",
+    "stylus": "^0.54.5",
+    "stylus-loader": "^3.0.2",
+    "vue-cli-plugin-vuetify": "^0.4.6",
+    "vue-template-compiler": "^2.6.4",
+    "vuetify-loader": "^1.2.0"
+  },
+  "babel": {
+    "presets": [
+      "@vue/app",
+      "@babel/preset-env"
+    ]
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "browser": true,
+      "node": true
+    },
+    "globals": {
+      "require": "readable",
+      "import": "readable",
+      "process": "readable"
+    },
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
+    ]
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 8"
+  ],
   "keywords": [
     "Electron",
     "quick",
@@ -14,9 +74,7 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
   "license": "CC0-1.0",
-  "devDependencies": {
-    "electron": "^4.0.3"
-  }
+  "main": "main.js",
+  "repository": "https://github.com/electron/electron-quick-start"
 }
