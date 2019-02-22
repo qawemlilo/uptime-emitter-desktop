@@ -2,35 +2,26 @@
 
 // Modules to control application life and create native browser window
 const {app, BrowserWindow, Menu, shell} = require('electron');
-const fs = require('fs')
 const config = require('./config');
-const server = require('./server');
+const server = require('./src/server');
+const crashReporter = require('./crash-reporter');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
 
 
-function createRootDir() {
-  if (!fs.existsSync(config.STORAGE_ROOT)) {
-      fs.mkdirSync(config.STORAGE_ROOT);
-  }
-  if (!fs.existsSync(config.IMAGES_PATH)) {
-      fs.mkdirSync(config.IMAGES_PATH);
-  }
-  if (!fs.existsSync(config.VIDEOS_PATH)) {
-      fs.mkdirSync(config.VIDEOS_PATH);
-  }
-}
-
 function createWindow () {
 
   let url;
+  let showWindow;
 
   if (process.env.NODE_ENV === 'DEV') {
     url = 'http://localhost:8080/';
+    showWindow = true;
   } else {
-    url = `file://${process.cwd()}/dist/index.html`
+    url = `${process.__static}/dist/index.html`;
+    showWindow = false;
   }
 
   // Create the browser window.
@@ -41,24 +32,34 @@ function createWindow () {
     center: true,
     fullscreenable: false,
     resizable: false,
-    show: true,
-    autoHideMenuBar: true
+    show: showWindow,
+    autoHideMenuBar: true,
+    backgroundColor: '#303030'
   })
 
   // and load the index.html of the app.
   mainWindow.loadURL(url);
 
-  // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  if (process.env.NODE_ENV === 'DEV') {
+    // Open the DevTools.
+    mainWindow.webContents.openDevTools()
+  }
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
     mainWindow = null;
   });
 
+  if (!showWindow) {
+    mainWindow.once('ready-to-show', () => {
+      mainWindow.show()
+    });
+  }
+
   server.createServer();
 
   loadMainMenu();
+  
 }
 
 
@@ -72,11 +73,17 @@ app.on('window-all-closed', function () {
   }
 });
 
+
+app.once('will-finish-launching', function () {
+  crashReporter.init();
+});
+
 app.on('activate', function () {
   if (mainWindow === null) {
     createWindow()
   }
 });
+
 
 
 function loadMainMenu() {

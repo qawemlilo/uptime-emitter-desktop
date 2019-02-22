@@ -1,0 +1,137 @@
+<template>
+  <v-card>
+    <monitor ref="newMonitorDialog" :monitors="monitors"></monitor>
+
+    <v-card-title primary-title color="dark">
+      <div class="headline">Monitors</div>
+
+      <v-spacer></v-spacer>
+
+      <v-btn fab dark small color="success" class="mr-2" @click="addNewMonitor">
+        <v-icon dark>add</v-icon>
+      </v-btn>
+    </v-card-title>
+
+    <v-list two-line>
+      <v-list-tile
+        v-for="(monitor, index) in monitors"
+        :key="index"
+        :class="[{even: index % 2 == 0}]"
+        >
+        <v-list-tile-avatar medium>
+          <v-icon :class="getClass(monitor.active, monitor.isUp)">{{ getIcon(monitor.active, monitor.isUp) }}</v-icon>
+        </v-list-tile-avatar>
+
+        <v-list-tile-content>
+          <v-list-tile-title>{{ monitor.title }}
+            <v-icon ml="5" :color="getClass(monitor.active, monitor.isUp)">trending_up</v-icon>
+            <span v-if="monitor.totalRequests > 0">{{percentage(monitor.totalDownTimes, monitor.totalRequests)}}%</span>
+          </v-list-tile-title>
+          <v-list-tile-sub-title>{{ monitor.website }}</v-list-tile-sub-title>
+        </v-list-tile-content>
+
+        <v-spacer></v-spacer>
+
+        <v-list-tile-action>
+          <v-switch :input-value="monitor.active" @change="toggleMonitor(monitor.id)"></v-switch>
+        </v-list-tile-action>
+      </v-list-tile>
+    </v-list>
+  </v-card>
+</template>
+
+<script>
+
+  import Monitor from './NewMonitor.vue'
+
+  export default {
+
+    components: {
+      Monitor
+    },
+
+    props: {
+      monitors: Array
+    },
+
+    methods: {
+
+      addNewMonitor() {
+        this.$refs.newMonitorDialog.$emit('open');
+      },
+
+      getIcon(active, isUp) {
+        let icon = "";
+
+        if (active && isUp) {
+          icon = "thumb_up";
+        }
+        else if (active && !isUp) {
+          icon = "thumb_down";
+        }
+        else if (!active) {
+          icon = "wifi_off";
+        }
+
+        return icon;
+      },
+
+      getClass(active, isUp) {
+        let klass = "";
+
+        if (active && isUp) {
+          klass = "success";
+        }
+        else if (active && !isUp) {
+          klass = "error";
+        }
+        else if (!active && !isUp) {
+          klass = "grey";
+        }
+
+        return klass;
+      },
+
+      turnOn() {
+        this.$refs.newMonitorDialog.$emit('open');
+      },
+
+      percentage(totalDownTimes, totalRequests) {
+        let uptime = totalRequests - totalDownTimes;
+
+        return Math.round((uptime / totalRequests) * 100);
+      },
+
+      toggleMonitor(monitorId) {
+        this.$nextTick(() => {
+          this.$store.dispatch('TOGGLE_MONITOR_STATE', monitorId);
+        });
+      }
+    },
+
+    data () {
+      return {
+        styles: {
+          active: 'success'
+        },
+        classes: {
+          active: 'success',
+
+        }
+      }
+    }
+
+  }
+</script>
+
+<style scoped>
+  .selected {
+    background-color:  orange !important;
+  }
+  .even {
+    background-color: #505050
+  }
+  .playlist {
+    overflow: auto
+  }
+</style>

@@ -1,25 +1,29 @@
 {
   "name": "UptimeEmitter",
-  "version": "0.0.1",
-  "description": "Uptime monitor",
-  "productName": "UptimeEmitter",
-  "author": "Que",
+  "version": "0.1.0",
+  "description": "ping-monitor desktop app",
+  "author": "Qawemlilo Mlilo <qawemlilo@gmail.com>",
   "scripts": {
     "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --mode=production --dest=./dist",
     "lint": "vue-cli-service lint",
-    "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 10 && NODE_ENV=DEV electron .",
-    "start": "electron ."
+    "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 5 && NODE_ENV=DEV electron .",
+    "start": "NODE_ENV=production electron ."
   },
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "electron-log": "^3.0.1",
+    "electron-settings": "^3.2.0",
     "express": "^4.16.4",
+    "material-design-icons": "^3.0.1",
     "nedb": "^1.8.0",
-    "ping-monitor": "^0.3.0",
+    "ping-monitor": "^0.4.1",
+    "typeface-roboto": "0.0.54",
     "vue": "^2.6.4",
-    "vuetify": "^1.5.0"
+    "vuetify": "^1.5.0",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "@babel/preset-stage-2": "^7.0.0",
@@ -55,7 +59,10 @@
     "extends": [
       "plugin:vue/essential",
       "eslint:recommended"
-    ]
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2017
+    }
   },
   "postcss": {
     "plugins": {
@@ -64,8 +71,7 @@
   },
   "browserslist": [
     "> 1%",
-    "last 2 versions",
-    "not ie <= 8"
+    "last 2 versions"
   ],
   "keywords": [
     "Electron",
@@ -74,7 +80,8 @@
     "tutorial",
     "demo"
   ],
-  "license": "CC0-1.0",
+  "license": "MIT",
   "main": "main.js",
-  "repository": "https://github.com/electron/electron-quick-start"
+  "productName": "UptimeEmitter",
+  "repository": "https://github.com/qawemlilo/uptime-emitter"
 }
