@@ -14,7 +14,7 @@ Uptime Emitter is [ping-monitor](https://github.com/qawemlilo/ping-monitor)'s de
 
 ### Architecture
 
-  - The UI is built using Vue.js & Vuetify.
+  - The UI is built with Vue.js & Vuetify.
   - All monitors are created and controlled through an express server.
   - ping-monitor manages the lifecycle of each monitor.
   - The client uses the http protocol to send commands to server and fetch updates.  
