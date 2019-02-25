@@ -14,26 +14,21 @@ let mainWindow;
 function createWindow () {
 
   let url;
-  let showWindow;
 
   if (process.env.NODE_ENV === 'DEV') {
     url = 'http://localhost:8080/';
-    showWindow = true;
   } else {
-    url = `${process.__static}/dist/index.html`;
-    showWindow = false;
+    url = `file://${process.cwd()}/dist/index.html`;
   }
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
-    acceptFirstMouse: true,
     center: true,
     fullscreenable: false,
     resizable: false,
-    show: showWindow,
-    autoHideMenuBar: true,
+    show: true,
     backgroundColor: '#303030'
   })
 
@@ -50,16 +45,10 @@ function createWindow () {
     mainWindow = null;
   });
 
-  if (!showWindow) {
-    mainWindow.once('ready-to-show', () => {
-      mainWindow.show()
-    });
-  }
-
   server.createServer();
 
   loadMainMenu();
-  
+
 }
 
 
@@ -73,10 +62,11 @@ app.on('window-all-closed', function () {
   }
 });
 
-
+/*
 app.once('will-finish-launching', function () {
   crashReporter.init();
-});
+});*/
+
 
 app.on('activate', function () {
   if (mainWindow === null) {

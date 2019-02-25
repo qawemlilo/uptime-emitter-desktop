@@ -7,7 +7,7 @@
     "serve": "vue-cli-service serve --open",
     "build": "vue-cli-service build --mode=production --dest=./dist",
     "lint": "vue-cli-service lint",
-    "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 5 && NODE_ENV=DEV electron .",
+    "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 15 && NODE_ENV=DEV electron .",
     "start": "NODE_ENV=production electron ."
   },
   "dependencies": {
@@ -17,10 +17,8 @@
     "electron-log": "^3.0.1",
     "electron-settings": "^3.2.0",
     "express": "^4.16.4",
-    "material-design-icons": "^3.0.1",
     "nedb": "^1.8.0",
     "ping-monitor": "^0.4.1",
-    "typeface-roboto": "0.0.54",
     "vue": "^2.6.4",
     "vuetify": "^1.5.0",
     "vuex": "^3.0.1"
@@ -74,11 +72,8 @@
     "last 2 versions"
   ],
   "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
+    "uptime",
+    "monitor"
   ],
   "license": "MIT",
   "main": "main.js",
