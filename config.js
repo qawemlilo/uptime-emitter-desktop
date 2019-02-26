@@ -20,12 +20,14 @@ module.exports = {
   APP_FILE_ICON: '',
   APP_ICON: '',
 
-  GITHUB_URL: 'https://github.com/qawemlilo/uptime-emitter-desktop',
-  GITHUB_URL_ISSUES: 'https://github.com/qawemlilo/uptime-emitter-desktop/issues',
-  HOME_PAGE_URL: 'https://github.com/qawemlilo/uptime-emitter-desktop',
-  UPDATES_URL: 'https://github.com/qawemlilo/uptime-emitter-desktop/releases',
+  GITHUB_URL: 'https://github.com/qawemlilo/uptime-emitter',
+  GITHUB_URL_ISSUES: 'https://github.com/qawemlilo/uptime-emitter/issues',
+  HOME_PAGE_URL: 'https://github.com/qawemlilo/uptime-emitter',
+  UPDATES_URL: 'https://github.com/qawemlilo/uptime-emitter/releases',
   UPDATES_API: 'https://video-download.herokuapp.com/updates/latest',
-  CRASH_REPORT_URL: 'https://video-download.herokuapp.com/crash-report'
+  CRASH_REPORT_URL: 'https://video-download.herokuapp.com/crash-report',
+
+  SERVER_PORT: 3160
 };
 
 

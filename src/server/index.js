@@ -5,8 +5,9 @@ const cors = require('cors')
 const bodyParser = require('body-parser');
 const loggger = require('electron-log');
 const monitors = require('./monitors')
+const config = require('../../config')
 const app = express()
-const port = 3160
+const port = config.SERVER_PORT;
 let runningServer = null;
 
 app.use(cors())

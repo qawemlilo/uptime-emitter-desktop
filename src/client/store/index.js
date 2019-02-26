@@ -5,6 +5,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 
 const MINUTE = (60 * 1000);
+const BASE_URL = `http://localhost:3160`;
 
 Vue.use(Vuex)
 
@@ -112,7 +113,7 @@ export default new Vuex.Store({
       try {
         let { data } = await axios({
           method:'post',
-          url:'http://localhost:3160/monitors',
+          url:`${BASE_URL}/monitors`,
           responseType:'json',
           data: payload
         });
@@ -132,7 +133,7 @@ export default new Vuex.Store({
       try {
         let { data } = await axios({
           method:'get',
-          url:`http://localhost:3160/monitors/${id}`,
+          url:`${BASE_URL}/monitors/${id}`,
           responseType:'json'
         });
 
@@ -185,7 +186,7 @@ export default new Vuex.Store({
       try {
         await axios({
           method:'get',
-          url:`http://localhost:3160/restart`,
+          url:`${BASE_URL}/restart`,
           responseType:'json'
         });
 
@@ -201,7 +202,7 @@ export default new Vuex.Store({
       try {
         await axios({
           method:'get',
-          url:`http://localhost:3160/pause`,
+          url:`${BASE_URL}/pause`,
           responseType:'json'
         });
       }

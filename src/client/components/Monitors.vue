@@ -19,12 +19,13 @@
         :class="[{even: index % 2 == 0}]"
         >
         <v-list-tile-avatar medium>
-          <v-icon :class="getClass(monitor.active, monitor.isUp)">{{ getIcon(monitor.active, monitor.isUp) }}</v-icon>
+          <v-progress-circular :size="50" color="primary" indeterminate v-if="monitor.totalRequests === 0"></v-progress-circular>
+          <v-icon :class="getClass(monitor.active, monitor.isUp)"  v-if="monitor.totalRequests > 0">{{ getIcon(monitor.active, monitor.isUp) }}</v-icon>
         </v-list-tile-avatar>
 
         <v-list-tile-content>
           <v-list-tile-title>{{ monitor.title }}
-            <v-icon ml="5" :color="getClass(monitor.active, monitor.isUp)">trending_up</v-icon>
+            <v-icon ml="5" :color="getClass(monitor.active, monitor.isUp)" v-if="monitor.totalRequests > 0">trending_up</v-icon>
             <span v-if="monitor.totalRequests > 0">{{percentage(monitor.totalDownTimes, monitor.totalRequests)}}%</span>
           </v-list-tile-title>
           <v-list-tile-sub-title>{{ monitor.website }}</v-list-tile-sub-title>

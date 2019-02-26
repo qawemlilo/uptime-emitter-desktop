@@ -11,14 +11,18 @@ const crashReporter = require('./crash-reporter');
 let mainWindow;
 
 
+
 function createWindow () {
 
   let url;
+  let showWindow;
 
   if (process.env.NODE_ENV === 'DEV') {
     url = 'http://localhost:8080/';
+    showWindow = true;
   } else {
     url = `file://${process.cwd()}/dist/index.html`;
+    showWindow = false;
   }
 
   // Create the browser window.
@@ -28,8 +32,9 @@ function createWindow () {
     center: true,
     fullscreenable: false,
     resizable: false,
-    show: true,
-    backgroundColor: '#303030'
+    show: showWindow,
+    backgroundColor: '#303030',
+    frame: false
   })
 
   // and load the index.html of the app.
@@ -38,6 +43,12 @@ function createWindow () {
   if (process.env.NODE_ENV === 'DEV') {
     // Open the DevTools.
     mainWindow.webContents.openDevTools()
+  }
+  else {
+    // Emitted when the window is closed.
+    mainWindow.once('ready-to-show', () => {
+      mainWindow.show();
+    });
   }
 
   // Emitted when the window is closed.
@@ -62,10 +73,10 @@ app.on('window-all-closed', function () {
   }
 });
 
-/*
+
 app.once('will-finish-launching', function () {
   crashReporter.init();
-});*/
+});
 
 
 app.on('activate', function () {

@@ -141,6 +141,15 @@ export default {
       type: 'FETCH_MONITORS'
     });
 
+    if (!navigator.onLine) {
+      self.networkOffLine();
+
+      setTimeout(function () {
+        self.stopMonitoring();
+      }, 1000);
+    }
+
+
     window.addEventListener('online',  () => {
       self.networkOnLine();
       self.restartMonitoring();
