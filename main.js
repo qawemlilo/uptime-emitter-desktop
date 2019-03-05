@@ -34,7 +34,8 @@ function createWindow () {
     resizable: false,
     show: showWindow,
     backgroundColor: '#303030',
-    frame: false
+    frame: false,
+    transparent: true,
   })
 
   // and load the index.html of the app.

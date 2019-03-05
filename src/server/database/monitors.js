@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
 const NEDB = require('nedb');
 const path = require('path');
-const config = require('../../config');
+const config = require('../../../config');
 
 
 module.exports = function () {

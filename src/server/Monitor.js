@@ -1,7 +1,7 @@
 "use strict";
 
 const Monitor = require('ping-monitor');
-const Database = require('./database');
+const DB = require('./database');
 const loggger = require('electron-log');
 
 // add pause prop
@@ -19,7 +19,7 @@ Monitor.prototype.save = function (res, oldState) {
   };
 
   if (!self.id && !state.id) {
-    return Database.create(opts)
+    return DB.monitors.create(opts)
     .then(function (dbMonitor) {
 
       self.id = dbMonitor._id;
@@ -31,7 +31,7 @@ Monitor.prototype.save = function (res, oldState) {
     });
   }
   else {
-    return Database.update(self.id || state.id, opts)
+    return DB.monitors.update(self.id || state.id, opts)
     .then(function () {
       return self;
     })
@@ -42,7 +42,7 @@ Monitor.prototype.save = function (res, oldState) {
 };
 
 Monitor.prototype.remove = function () {
-  return Database.remove(this.id)
+  return DB.monitors.remove(this.id)
   .then(function () {
     return true;
   })

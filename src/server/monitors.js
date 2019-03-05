@@ -1,7 +1,7 @@
 "use strict";
 
 const Monitor = require('./Monitor');
-const Database = require('./database');
+const DB = require('./database');
 const loggger = require('electron-log');
 
 let Monitors = [];
@@ -148,7 +148,7 @@ module.exports.init = async () => {
 
   initCalled = true;
 
-  let all = await Database.getAll();
+  let all = await DB.monitors.getAll();
 
   Monitors = [];
 
