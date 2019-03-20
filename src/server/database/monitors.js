@@ -9,7 +9,8 @@ module.exports = function () {
 
    const Database = new NEDB({
      filename: path.join(config.STORAGE_ROOT, 'monitors.db'),
-     autoload: true
+     autoload: true,
+     timestampData: true
    });
 
    const DB = {

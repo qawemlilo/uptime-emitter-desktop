@@ -33,7 +33,7 @@ function createMonitor (opts, oldState) {
   newMonitor.on('error', function (error, res, state) {
     process.nextTick(() => {
       loggger.error(error);
-      this.save(res, state);
+      this.save(res, state, error);
     });
   });
 
@@ -101,15 +101,6 @@ module.exports.stop = function (id) {
   return monitor;
 };
 
-/*
-module.exports.pause = function (id) {
-  let monitor = Monitors.find(monitor => monitor.id === id);
-
-  Monitors.forEach(function (monitor) {
-    monitor.stop();
-  });
-};*/
-
 
 module.exports.remove = function (monitorId) {
   Monitors.forEach(async function (monitor, index) {
@@ -139,6 +130,12 @@ module.exports.restartAll = function () {
   .forEach(function (monitor) {
     monitor.unpause();
   });
+};
+
+
+
+module.exports.getRequests = function (monitorId, query) {
+  return DB.requests.get(Object.assign({monitorId: monitorId}, query || {}));
 };
 
 

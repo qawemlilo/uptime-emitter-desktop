@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const loggger = require('electron-log');
 const monitors = require('./monitors')
 const config = require('../../config')
+const utils = require('./utils')
 const app = express()
 const port = config.SERVER_PORT;
 let runningServer = null;
@@ -111,6 +112,23 @@ app.get('/restart', (req, res) => {
   res.json({
     message: 'Monitors restarted'
   });
+});
+
+app.get('/requests/:monitorId', async (req, res) => {
+  try {
+    let requests = await monitors.getRequests(req.params.monitorId, req.query);
+    let stats = utils.groupCollection(requests)
+
+    res.json({
+      requests: requests,
+      stats: stats
+    });
+  }
+  catch (e) {
+    res.status(500).json({
+      message: e.message
+    });
+  }
 });
 
 

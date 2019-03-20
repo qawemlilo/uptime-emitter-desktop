@@ -7,7 +7,7 @@ const loggger = require('electron-log');
 // add pause prop
 Monitor.prototype.onpause = false;
 
-Monitor.prototype.save = function (res, oldState) {
+Monitor.prototype.save = function (res, oldState, requestError) {
 
   const self = this;
 
@@ -32,6 +32,20 @@ Monitor.prototype.save = function (res, oldState) {
   }
   else {
     return DB.monitors.update(self.id || state.id, opts)
+    .then(function () {
+      let date = new Date();
+
+      let request = Object.assign({
+        monitorId: self.id || state.id,
+        isUp: state.isUp,
+        error: requestError,
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+        day:  date.getDay() + 1
+      }, res);
+
+      return DB.requests.save(request);
+    })
     .then(function () {
       return self;
     })

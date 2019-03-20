@@ -18,13 +18,14 @@
         :key="index"
         :class="[{even: index % 2 == 0}]"
         >
-        <v-list-tile-avatar medium>
+        <v-list-tile-avatar medium @click="goTo(monitor.id)" style="cursor: pointer">
           <v-progress-circular :size="50" color="primary" indeterminate v-if="monitor.totalRequests === 0"></v-progress-circular>
           <v-icon :class="getClass(monitor.active, monitor.isUp)"  v-if="monitor.totalRequests > 0">{{ getIcon(monitor.active, monitor.isUp) }}</v-icon>
         </v-list-tile-avatar>
 
-        <v-list-tile-content>
-          <v-list-tile-title>{{ monitor.title }}
+        <v-list-tile-content @click="goTo(monitor.id)" style="cursor: pointer">
+          <v-list-tile-title>
+            {{ monitor.title }}
             <v-icon ml="5" :color="getClass(monitor.active, monitor.isUp)" v-if="monitor.totalRequests > 0">trending_up</v-icon>
             <span v-if="monitor.totalRequests > 0">{{percentage(monitor.totalDownTimes, monitor.totalRequests)}}%</span>
           </v-list-tile-title>
@@ -107,6 +108,10 @@
         this.$nextTick(() => {
           this.$store.dispatch('TOGGLE_MONITOR_STATE', monitorId);
         });
+      },
+
+      goTo(monitorId) {
+        this.$router.push('/monitor/' + monitorId);
       }
     },
 

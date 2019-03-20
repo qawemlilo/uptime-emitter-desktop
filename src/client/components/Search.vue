@@ -13,3 +13,22 @@
     </v-toolbar>
   </v-footer>
 </template>
+
+<script>
+
+export default {
+  name: 'Search',
+
+  data () {
+    return {
+      searchString: ""
+    }
+  },
+
+  methods: {
+    searchPlaylist () {
+      this.$emit('search', this.searchString)
+    }
+  }
+}
+</script>

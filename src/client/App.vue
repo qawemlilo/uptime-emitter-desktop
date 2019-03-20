@@ -1,80 +1,31 @@
 <template>
   <v-app dark>
-    <v-toolbar app>
-      <v-toolbar-title class="headline text-uppercase">
-        <v-icon color="success" medium>insert_chart_outlined</v-icon>
-        <span>Uptime</span>
-        <span class="font-weight-light">Emitter</span>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
 
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-    </v-toolbar>
+    <Navigation></Navigation>
 
-    <v-navigation-drawer v-model="drawer" absolute temporary>
-      <v-divider></v-divider>
+    <transition name="slide-x-transition">
+      <router-view class="view"></router-view>
+    </transition>
 
-      <v-list class="pt-0" dense>
-        <v-divider></v-divider>
-
-        <v-list-tile
-          v-for="item in items"
-          :key="item.title"
-          >
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
-
-          <v-list-tile-content>
-            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-    </v-navigation-drawer>
-
-
-    <v-content>
-      <monitors :monitors="monitors" v-if="!searchString"></monitors>
-      <monitors :monitors="filteredMonitors" v-if="searchString"></monitors>
-      <v-snackbar :bottom="true" v-model="snackbar" :color="color" :timeout="timeout">
-        {{ text }}
-        <v-btn dark flat @click="snackbar = false">Close</v-btn>
-      </v-snackbar>
-    </v-content>
-
-
-    <v-footer app height="64">
-      <v-toolbar flat>
-        <v-text-field
-        clearable
-        prepend-icon="search"
-        placeholder="Search"
-        v-model="searchString"
-        @input="searchPlaylist"
-        >
-        </v-text-field>
-        <v-spacer></v-spacer>
-      </v-toolbar>
-    </v-footer>
+    <v-snackbar :bottom="true" v-model="snackbar" :color="color" :timeout="timeout">
+      {{ text }}
+      <v-btn dark flat @click="snackbar = false">Close</v-btn>
+    </v-snackbar>
   </v-app>
 </template>
 
-<style>
-
- body {
-   background: #303030;
- }
-</style>
 <script>
-import Monitors from './components/Monitors.vue'
-
 import { mapGetters } from 'vuex'
+
+import Home from './views/Home.vue'
+import Navigation from './components/Navigation.vue'
 
 export default {
   name: 'App',
 
   components: {
-    Monitors
+    Home,
+    Navigation
   },
 
   data () {
@@ -86,7 +37,6 @@ export default {
         { title: 'About', icon: 'question_answer' }
       ],
       newMonitor: false,
-      filteredMonitors: [],
       snackbar: false,
       color: '',
       mode: '',
@@ -104,9 +54,6 @@ export default {
   },
 
   methods: {
-    searchPlaylist () {
-      this.filteredMonitors = this.searchResults(this.searchString)
-    },
 
     networkOnLine() {
       this.snackbar = true;
@@ -162,3 +109,8 @@ export default {
   }
 }
 </script>
+<style>
+ body {
+   background: #303030;
+ }
+</style>

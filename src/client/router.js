@@ -18,12 +18,13 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'homeView',
-      components: require('./pages/Index.vue')
+      name: 'home',
+      components: require('./views/Home.vue')
     },
     {
-    path: '/trucks/:truckId',
-    name: 'truckView',
-    components: require('./pages/trucks/ShowTruck.vue')
-  }]
+      path: '/monitor/:monitorId',
+      name: 'monitor',
+      components: require('./views/Monitor.vue')
+    }
+  ]
 })

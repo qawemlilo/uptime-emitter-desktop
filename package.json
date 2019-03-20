@@ -8,18 +8,22 @@
     "build": "vue-cli-service build --mode=production --dest=./dist",
     "lint": "vue-cli-service lint",
     "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 15 && NODE_ENV=DEV electron .",
-    "start": "NODE_ENV=production electron ."
+    "start": "NODE_ENV=production electron .",
+    "clean-db": "node src/server/delete"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
+    "dayjs": "^1.8.10",
     "electron-log": "^3.0.1",
     "electron-settings": "^3.2.0",
     "express": "^4.16.4",
+    "lodash": "^4.17.11",
     "nedb": "^1.8.0",
     "ping-monitor": "^0.4.1",
     "vue": "^2.6.4",
+    "vue-router": "^3.0.2",
     "vuetify": "^1.5.0",
     "vuex": "^3.0.1"
   },

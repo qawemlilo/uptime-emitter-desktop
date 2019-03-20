@@ -15,6 +15,7 @@ export default new Vuex.Store({
   state: {
     monitors: [],
     timers: {},
+    requests: {},
     errors: []
   },
 
@@ -51,6 +52,10 @@ export default new Vuex.Store({
 
     LOG_ERROR (state, error) {
       state.errors.push(error);
+    },
+
+    SET_REQUEST (state, payload) {
+      state.requests[payload.monitorId] = payload.data.stats || {};
     }
   },
 
@@ -65,13 +70,21 @@ export default new Vuex.Store({
       return state.monitors;
     },
 
+    getMonitor: (state) => (id) => {
+      return state.monitors.find(monitor => monitor.id === id);
+    },
+
     timers: (state) => {
       return state.timers;
+    },
+
+    getRequests: (state) => (id) => {
+      return state.requests[id] || {};
     }
   },
 
   actions: {
-    async FETCH_MONITORS ({ commit }) {
+    async FETCH_MONITORS ({ commit, dispatch }) {
       try {
         let { data } = await axios({
           method:'get',
@@ -80,6 +93,8 @@ export default new Vuex.Store({
         });
 
         commit('SET_MONITORS', data);
+
+        dispatch('SET_TIMERS');
       }
       catch (e) {
         commit('LOG_ERROR', e);
@@ -152,6 +167,8 @@ export default new Vuex.Store({
            dispatch('UPDATE_MONITOR', monitor.id);
         }, monitor.interval * MINUTE);
 
+        dispatch('UPDATE_MONITOR', monitor.id);
+
         // save new timer
         commit('ADD_TIMER', {
           timer: timer,
@@ -171,9 +188,7 @@ export default new Vuex.Store({
       });
     },
 
-    async PAUSE ({state, commit, dispatch}) {
-      dispatch('PAUSE_SERVER');
-
+    async PAUSE ({state, commit}) {
       state.monitors.forEach(function (monitor) {
         commit('STOP_TIMER', {
           monitor: monitor
@@ -198,12 +213,17 @@ export default new Vuex.Store({
     },
 
 
-    async PAUSE_SERVER ({commit}) {
+    async FETCH_REQUESTS ({commit}, monitorId) {
       try {
-        await axios({
+        let { data } = await axios({
           method:'get',
-          url:`${BASE_URL}/pause`,
+          url:`${BASE_URL}/requests/${monitorId}`,
           responseType:'json'
+        });
+
+        commit('SET_REQUEST', {
+          monitorId: monitorId,
+          data: data
         });
       }
       catch (e) {

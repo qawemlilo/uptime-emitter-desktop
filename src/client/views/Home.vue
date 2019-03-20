@@ -1,27 +1,23 @@
 <template>
   <v-content>
-    <monitors :monitors="monitors" v-if="!searchString"></monitors>
+    <monitors :monitors="monitors" v-if="filteredMonitors.length === 0"></monitors>
+    <monitors :monitors="filteredMonitors" v-if="filteredMonitors.length > 0"></monitors>
+
+    <Search @search="searchPlaylist"></Search>
   </v-content>
 
 </template>
 
 <script>
-
-  import Monitor from './Monitors.vue'
+  import { mapGetters } from 'vuex'
+  import Monitors from '../components/Monitors.vue'
+  import Search from '../components/Search.vue'
 
   export default {
 
     components: {
-      Monitor
-    },
-
-    props: {
-      monitors: Array,
-      searchString: String
-    },
-
-    components: {
-      Monitors
+      Monitors,
+      Search
     },
 
     data () {
@@ -30,17 +26,17 @@
       }
     },
 
+    methods: {
+      searchPlaylist (term) {
+        this.filteredMonitors = this.searchResults(term)
+      }
+    },
+
     computed: {
       ...mapGetters([
         'monitors',
         'searchResults'
       ])
-    },
-
-    methods: {
-      searchPlaylist () {
-        this.filteredMonitors = this.searchResults(this.searchString)
-      }
     }
 
   }

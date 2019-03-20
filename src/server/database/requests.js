@@ -9,7 +9,8 @@ module.exports = function () {
 
    const Database = new NEDB({
      filename: path.join(config.STORAGE_ROOT, 'requests.db'),
-     autoload: true
+     autoload: true,
+     timestampData: true
    });
 
    const DB = {
@@ -70,7 +71,7 @@ module.exports = function () {
      },
 
 
-     create: function (doc) {
+     save: function (doc) {
        return new Promise(function(resolve, reject){ //Or Q.defer() in Q
          Database.insert(doc, function (err, newDoc) {
            if (err) {
@@ -97,6 +98,8 @@ module.exports = function () {
        });
      }
   };
+
+  Database.ensureIndex({ fieldName: 'monitorId' }, function () {});
 
    return DB;
  }();

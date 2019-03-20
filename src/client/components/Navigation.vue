@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar app>
+  <v-toolbar app v-show="$route.name=='home'">
 
     <v-toolbar-title class="headline text-uppercase">
       <v-icon color="success" medium>insert_chart_outlined</v-icon>
@@ -11,3 +11,8 @@
     <v-toolbar-side-icon></v-toolbar-side-icon>
   </v-toolbar>
 </template>
+<script>
+export default {
+  name: 'Search'
+};
+</script>

@@ -33,9 +33,7 @@ function createWindow () {
     fullscreenable: false,
     resizable: false,
     show: showWindow,
-    backgroundColor: '#303030',
-    frame: false,
-    transparent: true,
+    backgroundColor: '#303030'
   })
 
   // and load the index.html of the app.
