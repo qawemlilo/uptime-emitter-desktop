@@ -1,9 +1,9 @@
 <template>
   <v-app dark>
 
-    <Navigation></Navigation>
+    <Navigation :monitors="monitors"></Navigation>
 
-    <transition name="slide-x-transition">
+    <transition name="fade" mode="out-in">
       <router-view class="view"></router-view>
     </transition>
 
@@ -112,5 +112,17 @@ export default {
 <style>
  body {
    background: #303030;
+ }
+
+ .fade-enter-active,
+ .fade-leave-active {
+   transition-duration: 0.3s;
+   transition-property: opacity;
+   transition-timing-function: ease;
+ }
+
+ .fade-enter,
+ .fade-leave-active {
+   opacity: 0
  }
 </style>

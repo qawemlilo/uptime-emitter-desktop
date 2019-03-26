@@ -15,11 +15,17 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+
+/*
+ * Routes
+**/
+
 app.get('/monitors', (req, res) => {
   res.json({
     monitors: monitors.getAll()
   });
 });
+
 
 app.get('/monitors/:monitorId', (req, res) => {
   let monitor = monitors.getOne(req.params.monitorId);
@@ -37,20 +43,25 @@ app.get('/monitors/:monitorId', (req, res) => {
 
 });
 
-app.get('/monitors/:monitorId/toggle', (req, res) => {
+app.get('/monitors/:monitorId/:action', (req, res) => {
   let monitor = monitors.getOne(req.params.monitorId);
 
   if (monitor) {
-    if (monitor.active) {
+    if (monitor.active && req.params.action == 'stop') {
       monitor.stop();
 
       res.json({
         monitor: monitor.getState()
       });
     }
-    else {
+    else if (!monitor.active && req.params.action == 'start') {
       monitor.restart();
 
+      res.json({
+        monitor: monitor.getState()
+      });
+    }
+    else {
       res.json({
         monitor: monitor.getState()
       });
@@ -64,16 +75,46 @@ app.get('/monitors/:monitorId/toggle', (req, res) => {
 });
 
 
-app.get('/monitors/:monitorId/remove', (req, res) => {
+app.post('/monitors/:monitorId', (req, res) => {
+  let monitor = monitors.update(req.params.monitorId, {
+    id: req.params.monitorId,
+    title: req.body.title,
+    website: req.body.website,
+    address: req.body.address,
+    interval: req.body.interval,
+    port: req.body.port,
+    expect: {
+      statusCode: parseInt(req.body.statusCode, 10) || 200
+    }
+  });
+
+  if (monitor) {
+    res.json({
+      monitor: monitor.getState()
+    });
+  }
+  else {
+    res.status(500).json({
+      message: 'Monitor not found'
+    });
+  }
+});
+
+app.post('/monitors/:monitorId/remove', (req, res) => {
   let monitor = monitors.getOne(req.params.monitorId);
 
   if (monitor) {
     monitors.remove(req.params.monitorId);
-  }
 
-  res.json({
-    success: true
-  });
+    res.json({
+      success: true
+    });
+  }
+  else {
+    res.status(500).json({
+      message: 'Monitor not saved'
+    });
+  }
 });
 
 app.post('/monitors', (req, res) => {
@@ -83,7 +124,10 @@ app.post('/monitors', (req, res) => {
     website: req.body.website,
     address: req.body.address,
     interval: req.body.interval,
-    port: req.body.port
+    port: req.body.port,
+    expect: {
+      statusCode: parseInt(req.body.statusCode, 10) || 200
+    }
   })
   .then(function (newMonitor) {
     res.json({
@@ -114,6 +158,7 @@ app.get('/restart', (req, res) => {
   });
 });
 
+
 app.get('/requests/:monitorId', async (req, res) => {
   try {
     let requests = await monitors.getRequests(req.params.monitorId, req.query);
@@ -133,7 +178,9 @@ app.get('/requests/:monitorId', async (req, res) => {
 
 
 
-
+/*
+ * Initialise server
+**/
 module.exports.createServer = function () {
   if (runningServer) {
     return false;

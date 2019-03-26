@@ -16,7 +16,7 @@ function createMonitor (opts, oldState) {
     process.nextTick(() => {
       loggger.info(`${state.website || state.address} is up`);
 
-      this.save(res, state)
+      this.save(res, state);
     });
   });
 
@@ -50,13 +50,6 @@ function createMonitor (opts, oldState) {
   });
 
   return newMonitor
-}
-
-
-function removeOne (index) {
-  delete Monitors[index];
-
-  Monitors =  Monitors.filter((monitor) => monitor);
 }
 
 
@@ -102,14 +95,28 @@ module.exports.stop = function (id) {
 };
 
 
-module.exports.remove = function (monitorId) {
-  Monitors.forEach(async function (monitor, index) {
-    if (monitor.id === monitorId) {
-      loggger.info('removing ', monitor.title)
-      await monitor.remove();
-      removeOne(index)
-    }
-  });
+module.exports.update = function (id, props) {
+
+  let monitor = Monitors.find(monitor => monitor.id === id);
+
+  monitor.pause();
+  monitor.setProperties(props);
+  monitor.unpause();
+
+  return monitor;
+};
+
+
+module.exports.remove = async (monitorId) => {
+  let monitor = Monitors.find(monitor => monitor.id === monitorId);
+
+  monitor.stop();
+
+  await monitor.remove();
+
+  Monitors = Monitors.filter((monitor) => monitor.id != monitorId);
+
+  loggger.info(`Monitor removed`);
 };
 
 
@@ -125,7 +132,7 @@ module.exports.pause = function () {
 
 module.exports.restartAll = function () {
   Monitors.filter(function (monitor) {
-    return monitor.onpause;
+    return monitor.paused;
   })
   .forEach(function (monitor) {
     monitor.unpause();

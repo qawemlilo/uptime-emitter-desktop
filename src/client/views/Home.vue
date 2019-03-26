@@ -1,7 +1,7 @@
 <template>
   <v-content>
-    <monitors :monitors="monitors" v-if="filteredMonitors.length === 0"></monitors>
-    <monitors :monitors="filteredMonitors" v-if="filteredMonitors.length > 0"></monitors>
+    <monitors :monitors="monitors" v-if="!term"></monitors>
+    <monitors :monitors="filteredMonitors" v-if="term"></monitors>
 
     <Search @search="searchPlaylist"></Search>
   </v-content>
@@ -22,12 +22,14 @@
 
     data () {
       return {
-        filteredMonitors: []
+        filteredMonitors: [],
+        term: ""
       }
     },
 
     methods: {
       searchPlaylist (term) {
+        this.term = term
         this.filteredMonitors = this.searchResults(term)
       }
     },

@@ -1,7 +1,6 @@
 module.exports = {
   publicPath: './',
 
-
   pages: {
     index: {
       // entry for the page

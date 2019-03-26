@@ -1,18 +1,10 @@
 <template>
   <v-card>
-    <monitor ref="newMonitorDialog" :monitors="monitors"></monitor>
-
-    <v-card-title primary-title color="dark">
+    <v-card-title primary-title color="dark" class="mb-0">
       <div class="headline">Monitors</div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn fab dark small color="success" class="mr-2" @click="addNewMonitor">
-        <v-icon dark>add</v-icon>
-      </v-btn>
     </v-card-title>
 
-    <v-list two-line>
+    <v-list two-line class="mt-0">
       <v-list-tile
         v-for="(monitor, index) in monitors"
         :key="index"
@@ -35,7 +27,7 @@
         <v-spacer></v-spacer>
 
         <v-list-tile-action>
-          <v-switch :input-value="monitor.active" @change="toggleMonitor(monitor.id)"></v-switch>
+          <v-switch :input-value="monitor.active" @change="toggleMonitor(monitor.id, $event)"></v-switch>
         </v-list-tile-action>
       </v-list-tile>
     </v-list>
@@ -44,23 +36,13 @@
 
 <script>
 
-  import Monitor from './NewMonitor.vue'
-
   export default {
-
-    components: {
-      Monitor
-    },
 
     props: {
       monitors: Array
     },
 
     methods: {
-
-      addNewMonitor() {
-        this.$refs.newMonitorDialog.$emit('open');
-      },
 
       getIcon(active, isUp) {
         let icon = "";
@@ -101,12 +83,15 @@
       percentage(totalDownTimes, totalRequests) {
         let uptime = totalRequests - totalDownTimes;
 
-        return Math.round((uptime / totalRequests) * 100);
+        return parseFloat((uptime / totalRequests) * 100).toFixed(2);
       },
 
-      toggleMonitor(monitorId) {
+      toggleMonitor(monitorId,active) {
         this.$nextTick(() => {
-          this.$store.dispatch('TOGGLE_MONITOR_STATE', monitorId);
+          this.$store.dispatch('TOGGLE_MONITOR_STATE', {
+            id: monitorId,
+            action: active ? 'start' : 'stop'
+          });
         });
       },
 

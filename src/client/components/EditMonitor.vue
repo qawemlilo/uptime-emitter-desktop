@@ -9,11 +9,11 @@
         scrollable
       >
         <v-card tile>
-          <v-toolbar card dark color="success">
+          <v-toolbar card dark color="dark">
             <v-btn icon dark @click="dialog = false">
               <v-icon>close</v-icon>
             </v-btn>
-            <v-toolbar-title>New Monitor</v-toolbar-title>
+            <v-toolbar-title>Edit Monitor</v-toolbar-title>
             <v-spacer></v-spacer>
             <v-toolbar-items>
               <v-btn dark flat @click="saveMonitor">Save</v-btn>
@@ -24,7 +24,7 @@
 
               <v-select v-model="serverType" :items="serverOptions" :rules="[v => !!v || 'Server Protocol is required']" label="Server Protocol" required></v-select>
 
-              <v-text-field v-model="title" :rules="titleRules" label="Title" required></v-text-field>
+              <v-text-field v-model="title"  :rules="titleRules" label="Title" required></v-text-field>
 
               <v-text-field v-if="serverType == 'HTTP'" v-model="website" :rules="urlRules" label="Address" required></v-text-field>
 
@@ -51,13 +51,12 @@
   export default {
 
     props: {
-      monitors: Array
+      monitor: Object
     },
 
     methods: {
       closeModal () {
         this.dialog = false;
-        this.resetForm();
       },
 
       validate () {
@@ -88,6 +87,7 @@
         }
 
         let monitor = {
+          id: this.monitor.id,
           title: this.title,
           website: this.website,
           address: this.address,
@@ -96,7 +96,8 @@
           statusCode: this.statusCode
         };
 
-        this.$store.dispatch('ADD_MONITOR',monitor);
+
+        this.$store.dispatch('UPDATE_MONITOR',monitor);
 
         this.closeModal();
       },
@@ -110,19 +111,19 @@
       return {
         dialog: false,
         valid: true,
-        port: null,
-        title: '',
+        port: this.monitor.port,
+        title: this.monitor.title,
         titleRules: [
           v => !!v || 'Title is required'
         ],
-        website: null,
-        address: null,
-        statusCode: 200,
+        website: this.monitor.website,
+        address: this.monitor.address,
+        statusCode: this.monitor.expect && this.monitor.expect.statusCode ? this.monitor.expect.statusCode : 200,
         urlRules: [
           v => !!v || 'Address is required'
         ],
-        serverType: 'HTTP',
-        interval: 5,
+        serverType: this.monitor.website ? 'HTTP' : 'TCP',
+        interval: this.monitor.interval ? this.monitor.interval : 5,
         frequencyRules: [
           v => v > 0 && v <= 1440 || 'Frequency should be from 1 to 1440 minutes'
         ],
@@ -141,11 +142,11 @@
 
       this.$on('close',  () => {
         self.dialog = false;
-      })
+      });
 
       this.$on('open',  () => {
         self.dialog = true;
-      })
+      });
     }
 
   }

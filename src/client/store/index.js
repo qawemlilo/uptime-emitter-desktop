@@ -56,6 +56,12 @@ export default new Vuex.Store({
 
     SET_REQUEST (state, payload) {
       state.requests[payload.monitorId] = payload.data.stats || {};
+    },
+
+    DELETE_MONITOR (state, payload) {
+      state.monitors = state.monitors.filter((monitor) => {
+        return monitor.id != payload.monitor.id;
+      });
     }
   },
 
@@ -101,13 +107,12 @@ export default new Vuex.Store({
       }
     },
 
-    async TOGGLE_MONITOR_STATE ({commit, dispatch}, id) {
+    async TOGGLE_MONITOR_STATE ({commit, dispatch}, payload) {
       try {
         let { data } = await axios({
           method:'get',
-          url:`http://localhost:3160/monitors/${id}/toggle`,
-          responseType:'json',
-          data: id
+          url:`http://localhost:3160/monitors/${payload.id}/${payload.action}`,
+          responseType:'json'
         });
 
         commit('TOGGLE_MONITOR_STATE', data);
@@ -136,15 +141,18 @@ export default new Vuex.Store({
         // add to state
         commit('ADD_MONITOR', data);
 
-        // trigger monitoring interval
+        // trigger monitoring timer
         dispatch('ADD_TIMER', data.monitor);
+
+        // immediately fetch update
+        dispatch('FETCH_UPDATE', data.monitor.id);
       }
       catch (e) {
         commit('LOG_ERROR', e);
       }
     },
 
-    async UPDATE_MONITOR ({commit}, id) {
+    async FETCH_UPDATE ({commit}, id) {
       try {
         let { data } = await axios({
           method:'get',
@@ -159,15 +167,32 @@ export default new Vuex.Store({
       }
     },
 
+    async UPDATE_MONITOR ({commit, dispatch}, payload) {
+      try {
+        let { data } = await axios({
+          method:'post',
+          url:`${BASE_URL}/monitors/${payload.id}`,
+          responseType:'json',
+          data: payload
+        });
+
+        commit('UPDATE_MONITOR', data);
+        dispatch('FETCH_UPDATE', payload.id);
+      }
+      catch (e) {
+        commit('LOG_ERROR', e);
+      }
+    },
+
     async ADD_TIMER ({state, commit, dispatch}, monitor) {
       if (monitor.active) {
         // create interval to do reguler checks
         let timer = setInterval(function () {
            // fetch the latest monitor state
-           dispatch('UPDATE_MONITOR', monitor.id);
+           dispatch('FETCH_UPDATE', monitor.id);
         }, monitor.interval * MINUTE);
 
-        dispatch('UPDATE_MONITOR', monitor.id);
+        dispatch('FETCH_UPDATE', monitor.id);
 
         // save new timer
         commit('ADD_TIMER', {
@@ -224,6 +249,28 @@ export default new Vuex.Store({
         commit('SET_REQUEST', {
           monitorId: monitorId,
           data: data
+        });
+      }
+      catch (e) {
+        commit('LOG_ERROR', e);
+      }
+    },
+
+    async DELETE_MONITOR ({commit}, payload) {
+      try {
+        commit('STOP_TIMER', {
+          monitor: payload
+        });
+
+        await axios({
+          method:'post',
+          url:`${BASE_URL}/monitors/${payload.id}/remove`,
+          responseType:'json'
+        });
+
+
+        commit('DELETE_MONITOR', {
+          monitor: payload
         });
       }
       catch (e) {
