@@ -103,7 +103,7 @@
     ],
     "mac": {
       "target": "dmg",
-      "icon": "public/icons/mac/icon.icns"
+      "icon": "app/public/icons/mac/icon.icns"
     }
   },
   "license": "MIT",
