@@ -1,3 +1,9 @@
 node_modules
 .DS_Store
 src/server/delete.js
+
+#Electron-builder output
+/dist_electron
+build/
+icons/
+dist/

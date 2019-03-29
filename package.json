@@ -3,13 +3,21 @@
   "version": "0.1.0",
   "description": "ping-monitor desktop app",
   "author": "Qawemlilo Mlilo <qawemlilo@gmail.com>",
+  "main": "app/main.js",
+  "productName": "UptimeEmitter",
   "scripts": {
     "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build --mode=production --dest=./dist",
+    "build": "vue-cli-service build --mode=production --dest=./app/public",
     "lint": "vue-cli-service lint",
+    "clean-db": "node src/server/delete",
     "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 15 && NODE_ENV=DEV electron .",
+    "dist": "build",
+    "icons": "./node_modules/.bin/electron-icon-maker --input=$PWD/app/src/client/assets/analytics.png --output=./public",
+    "pack": "build --dir",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps",
     "start": "NODE_ENV=production electron .",
-    "clean-db": "node src/server/delete"
+    "mac": "electron-builder -m"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -35,6 +43,8 @@
     "@vue/cli-service": "^3.5.1",
     "css-loader": "^2.1.0",
     "electron": "^4.0.3",
+    "electron-builder": "^20.39.0",
+    "electron-icon-maker": "0.0.4",
     "style-loader": "^0.23.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
@@ -80,8 +90,18 @@
     "uptime",
     "monitor"
   ],
+  "build": {
+    "appId": "com.uptimeemitter.app",
+    "productName": "UptimeEmitter",
+    "directories": {
+      "buildResources": "./app",
+      "output": "build"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "public/icons/mac/icon.icns"
+    }
+  },
   "license": "MIT",
-  "main": "main.js",
-  "productName": "UptimeEmitter",
-  "repository": "https://github.com/qawemlilo/uptime-emitter"
+  "repository": "https://github.com/qawemlilo/uptime-emitter-desktop"
 }

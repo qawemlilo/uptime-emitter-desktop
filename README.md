@@ -42,6 +42,10 @@ npm run dev
 This app was inspired by [Axel Uriel Martínez Castillo](https://github.com/ackzell)'s [YouTube series](https://www.youtube.com/watch?v=dWGekDUJG1g&list=PLmJs3lfUmCdT9MyG60Oo6HM7xAn79vwZ0) on building a desktop app for monitoring micro-services.
 
 
+#### App Icon
+App icon made by DinosoftLabs from www.flaticon.com
+
+
 ### License
 
 (MIT License)
