@@ -3,6 +3,10 @@
 const Monitor = require('./Monitor');
 const DB = require('./database');
 const loggger = require('electron-log');
+const settings = require('electron-settings');
+const notifier = require('node-notifier');
+const path = require('path');
+
 
 let Monitors = [];
 let initCalled = false;
@@ -26,6 +30,16 @@ function createMonitor (opts, oldState) {
       loggger.info(`${state.website || state.address} is down`);
 
       this.save(res, state);
+
+      if (settings.get('settings.notifications')) {
+        notifier.notify({
+          icon: path.resolve(__dirname, '..', '..', 'public/icons/png/128x128.png'),
+          title: state.title + ' is down',
+          message: res.responseMessage,
+          timeout: 20,
+          wait: true
+        });
+      }
     });
   });
 
@@ -34,6 +48,17 @@ function createMonitor (opts, oldState) {
     process.nextTick(() => {
       loggger.error(error);
       this.save(res, state);
+
+      if (settings.get('settings.notifications')) {
+        notifier.notify({
+          icon: path.resolve(__dirname, '..', '..', 'public/icons/png/128x128.png'),
+          title: state.title + ' is down',
+          message: error.message,
+          sound: !!settings.get('settings.sound'),
+          timeout: 20,
+          wait: true
+        });
+      }
     });
   });
 

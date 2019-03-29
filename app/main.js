@@ -7,10 +7,10 @@ const server = require('./src/server');
 const crashReporter = require('./crash-reporter');
 //const debug = require('electron-debug');
 
-/*
-debug({
-  enabled: true
-});*/
+
+//debug({
+  //enabled: true
+//});
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.

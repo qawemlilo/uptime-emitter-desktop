@@ -7,13 +7,10 @@
   "productName": "UptimeEmitter",
   "scripts": {
     "serve": "vue-cli-service serve --open",
-    "build": "vue-cli-service build --mode=production --dest=./app/public",
+    "build": "npm run icons && vue-cli-service build --mode=production --dest=./app/public && npm run mac",
     "lint": "vue-cli-service lint",
-    "clean-db": "node src/server/delete",
     "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 15 && NODE_ENV=DEV electron .",
-    "dist": "build",
-    "icons": "./node_modules/.bin/electron-icon-maker --input=$PWD/app/src/client/assets/analytics.png --output=./public",
-    "pack": "build --dir",
+    "icons": "./node_modules/.bin/electron-icon-maker --input=$PWD/app/src/client/assets/icon.png --output=./app/public",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "start": "NODE_ENV=production electron .",
@@ -24,11 +21,13 @@
     "body-parser": "^1.18.3",
     "cors": "^2.8.5",
     "dayjs": "^1.8.10",
+    "electron-debug": "^2.1.0",
     "electron-log": "^3.0.1",
     "electron-settings": "^3.2.0",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "nedb": "^1.8.0",
+    "node-notifier": "^5.4.0",
     "ping-monitor": "^0.4.2",
     "vue": "^2.6.4",
     "vue-electron": "^1.0.6",
@@ -49,7 +48,7 @@
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
     "vue-cli-plugin-vuetify": "^0.4.6",
-    "vue-template-compiler": "^2.6.4",
+    "vue-template-compiler": "^2.6.10",
     "vuetify-loader": "^1.2.0"
   },
   "babel": {
@@ -93,10 +92,15 @@
   "build": {
     "appId": "com.uptimeemitter.app",
     "productName": "UptimeEmitter",
+    "asar": false,
     "directories": {
       "buildResources": "./app",
       "output": "build"
     },
+    "files": [
+      "**/*",
+      "app/public/icons/png/128x128.png"
+    ],
     "mac": {
       "target": "dmg",
       "icon": "public/icons/mac/icon.icns"

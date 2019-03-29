@@ -16,6 +16,7 @@
     "express": "^4.16.4",
     "lodash": "^4.17.11",
     "nedb": "^1.8.0",
+    "node-notifier": "^5.4.0",
     "ping-monitor": "^0.4.2",
     "vue": "^2.6.4",
     "vue-electron": "^1.0.6",

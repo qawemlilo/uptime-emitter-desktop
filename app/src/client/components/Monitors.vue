@@ -4,14 +4,6 @@
       <div class="headline">Monitors</div>
     </v-card-title>
 
-    <v-card-title primary-title v-if="monitors.length === 0">
-      <div style="width:100%;text-align:center">
-        <v-btn round color="error" dark @click="newMonitorForm">
-          <v-icon>add</v-icon> Create your first monitor
-        </v-btn>
-      </div>
-    </v-card-title>
-
     <v-list two-line class="mt-0">
       <v-list-tile
         v-for="(monitor, index) in monitors"
@@ -39,6 +31,14 @@
         </v-list-tile-action>
       </v-list-tile>
     </v-list>
+
+    <v-card-title primary-title v-if="monitors.length === 0 && renderComplete">
+      <div style="width:100%;text-align:center">
+        <v-btn round color="error" dark @click="newMonitorForm">
+          <v-icon>add</v-icon> Create your first monitor
+        </v-btn>
+      </div>
+    </v-card-title>
   </v-card>
 </template>
 
@@ -118,12 +118,17 @@
           active: 'success'
         },
         classes: {
-          active: 'success',
-
-        }
+          active: 'success'
+        },
+        renderComplete: false
       }
-    }
+    },
 
+    mounted() {
+      setTimeout(() => {
+        this.renderComplete = true;
+      }, 1500);
+    }
   }
 </script>
 

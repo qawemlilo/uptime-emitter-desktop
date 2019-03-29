@@ -1,4 +1,10 @@
-# Uptime Emitter desktop
+
+<h1 align="center">
+  <a href="https://github.com/qawemlilo/uptime-emitter-desktop"><img src="https://raw.githubusercontent.com/qawemlilo/https://github.com/qawemlilo/uptime-emitter-desktop/master/app/public/icons/png/512x512.png" alt="NodeTube" width="200"></a>
+  <br>
+  UptimeEmitter Desktop
+  <br>
+</h1>
 
 Uptime Emitter is [ping-monitor](https://github.com/qawemlilo/ping-monitor)'s desktop client.
 

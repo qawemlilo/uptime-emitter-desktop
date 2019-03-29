@@ -5,5 +5,4 @@ src/server/delete.js
 #Electron-builder output
 /dist_electron
 build/
-icons/
 dist/

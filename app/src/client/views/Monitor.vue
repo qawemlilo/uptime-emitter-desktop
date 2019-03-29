@@ -211,7 +211,14 @@ export default {
 
     deleteMonitor() {
       this.$store.dispatch('DELETE_MONITOR', this.monitor);
-      this.$router.push({path: '/'})
+      
+      this.$router.push({path: '/'});
+
+      this.$eventBus.$emit('alert', {
+        color: 'error',
+        message: 'Monitor deleted',
+        timeout: 5000
+      });
     },
 
     toggleMonitor(action) {
