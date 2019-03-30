@@ -6,7 +6,13 @@
     <v-spacer></v-spacer>
 
     <v-toolbar-title class="headline text-uppercase">
-      <v-icon color="success" medium>insert_chart_outlined</v-icon>
+      <v-avatar
+        :tile="false"
+        size="40"
+      >
+        <v-img :src="require('../assets/icon.png')" />
+      </v-avatar>
+
       <span>Uptime</span>
       <span class="font-weight-light">Emitter</span>
     </v-toolbar-title>

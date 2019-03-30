@@ -1,7 +1,21 @@
 <template>
   <v-navigation-drawer v-model="drawer" absolute temporary>
 
-    <v-list dense>
+    <v-list class="pa-1">
+      <v-list-tile avatar>
+        <v-list-tile-avatar>
+          <v-img :src="require('../assets/icon.png')" />
+        </v-list-tile-avatar>
+
+        <v-list-tile-content>
+          <v-list-tile-title class="title">UptimeEmitter</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
+
+    <v-list class="pt-0"dense>
+      <v-divider></v-divider>
+
       <v-list-tile @click="openMonitors">
         <v-list-tile-action>
           <v-icon>insert_chart_outlined</v-icon>

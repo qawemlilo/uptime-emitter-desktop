@@ -29,8 +29,8 @@ Uptime Emitter is [ping-monitor](https://github.com/qawemlilo/ping-monitor)'s de
 
 ### How to use
 ```javascript
-git clone https://github.com/qawemlilo/uptime-emitter.git
-cd uptime-emitter && npm install
+git clone https://github.com/qawemlilo/uptime-emitter-desktop.git
+cd uptime-emitter-desktop && npm install
 
 // run in development mode
 npm run dev

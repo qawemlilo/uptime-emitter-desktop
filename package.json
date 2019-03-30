@@ -7,10 +7,10 @@
   "productName": "UptimeEmitter",
   "scripts": {
     "serve": "vue-cli-service serve --open",
-    "build": "npm run icons && vue-cli-service build --mode=production --dest=./app/public && npm run mac",
+    "build": "vue-cli-service build --mode=production --dest=./app/public && npm run mac",
     "lint": "vue-cli-service lint",
     "dev": "NODE_ENV=DEV vue-cli-service serve & sleep 15 && NODE_ENV=DEV electron .",
-    "icons": "./node_modules/.bin/electron-icon-maker --input=$PWD/app/src/client/assets/icon.png --output=./app/public",
+    "icons": "./node_modules/.bin/electron-icon-maker --input=$PWD/app/src/client/assets/icon.png --output=./public",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "start": "NODE_ENV=production electron .",
