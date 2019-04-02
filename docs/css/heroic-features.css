@@ -1,0 +1,48 @@
+/*!
+ * Start Bootstrap - Heroic Features (https://startbootstrap.com/template-overviews/heroic-features)
+ * Copyright 2013-2019 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-heroic-features/blob/master/LICENSE)
+ */
+body,h1,h2,h3,h4,h5,h6 {
+  font-family: "Roboto",Helvetica,Arial,sans-serif;
+}
+
+.jumbotron {
+  padding-top: 56px;
+  color: #fefefe;
+  border-radius: 0;
+}
+
+.img-container {
+  overflow-y: hidden;
+}
+
+.img-container img {
+  margin-bottom: -100px;
+}
+
+.no-border {
+  border-radius: 0;
+  border: 0;
+}
+
+.newsletter .form-control {
+  height: 50px;
+  border-color: #ffffff;
+  border-radius:0;
+}
+.newsletter .form-control:focus {
+  box-shadow: none;
+  border: 2px solid #243c4f;
+}
+.newsletter .btn {
+  min-height: 50px;
+  border-radius:0;
+  background: #243c4f;
+  color: #fff;
+  font-weight:600;
+}
+
+a, a:hover {
+  color: #fefefe;
+}
