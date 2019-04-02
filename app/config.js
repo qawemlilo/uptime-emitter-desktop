@@ -25,8 +25,8 @@ module.exports = {
   GITHUB_URL_ISSUES: 'https://github.com/qawemlilo/uptime-emitter/issues',
   HOME_PAGE_URL: 'https://github.com/qawemlilo/uptime-emitter',
   UPDATES_URL: 'https://github.com/qawemlilo/uptime-emitter/releases',
-  UPDATES_API: 'https://video-download.herokuapp.com/updates/latest',
-  CRASH_REPORT_URL: 'https://video-download.herokuapp.com/crash-report',
+  UPDATES_API: 'https://video-download.herokuapp.com/updates/uptimeemitter',
+  CRASH_REPORT_URL: 'https://video-download.herokuapp.com/uptimeemitter-crash-report',
 
   SERVER_PORT: 3160
 };
