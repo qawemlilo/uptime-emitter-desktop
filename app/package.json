@@ -14,7 +14,7 @@
     "electron-log": "^3.0.1",
     "electron-settings": "^3.2.0",
     "express": "^4.16.4",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "nedb": "^1.8.0",
     "node-notifier": "^8.0.1",
     "ping-monitor": "^0.4.2",
