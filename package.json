@@ -39,7 +39,7 @@
     "@babel/preset-stage-2": "^7.0.0",
     "@vue/cli-plugin-babel": "^3.4.0",
     "@vue/cli-plugin-eslint": "^3.4.0",
-    "@vue/cli-service": "^3.5.1",
+    "@vue/cli-service": "^5.0.8",
     "css-loader": "^2.1.0",
     "electron": "^9.4.0",
     "electron-builder": "^20.39.0",
